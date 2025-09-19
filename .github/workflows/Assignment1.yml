@@ -36,7 +36,7 @@ jobs:
           echo "Build output or test report" > artifact/report.txt
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-artifact
           path: artifact/
