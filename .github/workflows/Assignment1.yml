@@ -1,5 +1,6 @@
 name: Assignment 01
 
+
 on:
   push:
     branches: [main, dev]
@@ -8,11 +9,9 @@ on:
   workflow_dispatch:  
 
 jobs:
+
   ci:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16, 18, 20]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -20,7 +19,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18 
 
       - name: Install dependencies
         run: echo "No dependencies to install"
@@ -39,8 +38,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifact-${{ github.run_id }}
+          name: build-artifact-${{ github.run_id }}   
           path: artifact/
+
 
   deploy_qa:
     runs-on: ubuntu-latest
@@ -53,9 +53,11 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: build-artifact
+          name: build-artifact-${{ github.run_id }}
+
       - name: Deploy to QA
-        run: echo "Deploying to QA with artifact"
+        run: echo "Deploying to QA environment with artifact"
+
 
   deploy_prod:
     runs-on: ubuntu-latest
@@ -68,9 +70,10 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: build-artifact
+          name: build-artifact-${{ github.run_id }}
+
       - name: Deploy to Production
-        run: echo "Deploying to Production with artifact"
+        run: echo "Deploying to Production environment with artifact"
 
       - name: Send Slack notification
         run: echo "Notify team about Production deploy"
