@@ -39,7 +39,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifact-${{ github.run_id }
+          name: build-artifact-${{ github.run_id }}
           path: artifact/
 
   deploy_qa:
